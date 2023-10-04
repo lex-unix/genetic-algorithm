@@ -8,10 +8,10 @@ from functions import Easom, ThreeHumpCamel, Ackley
 def start_timer():
     start = time.time()
 
-    def stop_stop_timer():
+    def stop_timer():
         print(f'Time to finish: {time.time() - start:.2f} seconds\n')
 
-    return stop_stop_timer
+    return stop_timer
 
 
 def test_mutation(func):

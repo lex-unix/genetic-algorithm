@@ -141,9 +141,9 @@ class GeneticAlgorithm:
                 new_population.append(new_individ)
 
             if hasattr(self, 'stop_criteria'):
-                stop = self.stop_criteria(
-                    parents=population, children=new_population)
-                if stop:
+                if self.stop_criteria(
+                        parents=population, children=new_population
+                ):
                     return [sorted(new_population, key=lambda x: x.fitness)[0], epoch + 1]
 
             population = new_population
