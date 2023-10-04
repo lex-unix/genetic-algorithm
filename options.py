@@ -110,3 +110,22 @@ def select_with_displacement(parents: list[Individ], children: list[Individ], nu
         sorted_parents = sorted(parents, key=lambda x: x.fitness)
         new_population.extend(sorted_parents[:diff])
     return new_population
+
+
+def has_close_fitnesses(parents: list[Individ], children: list[Individ], e: float):
+    parents_mean = np.mean([individ.fitness for individ in parents])
+    children_mean = np.mean([individ.fitness for individ in children])
+    diff = np.abs(parents_mean - children_mean)
+    return diff < e
+
+
+def has_close_solutions(children: list[Individ], parents, e: float,):
+    n = len(children)
+    min_distance = float('inf')
+    for i in range(n):
+        for j in range(i+1, n):
+            distance = calculate_similarity(children[i], children[j])
+            if distance < min_distance:
+                min_distance = distance
+
+    return min_distance < e

@@ -1,8 +1,9 @@
 import struct
+import math
+from functools import partial
 from numpy.random import rand
 from numpy.random import randint
 from numpy.random import uniform
-import math
 
 
 class Individ:
@@ -92,6 +93,10 @@ class GeneticAlgorithm:
     def set_inversion_rate(self, rate):
         self.inversion_rate = rate
 
+    def set_stop_criteria(self, stop_criteria, e: float):
+        if stop_criteria is not None:
+            self.stop_criteria = partial(stop_criteria, e=e)
+
     def mutation(self, individ: Individ):
         i = randint(0, len(individ.genotype))
         bit = '1' if individ.genotype[i] == '0' else '1'
@@ -135,6 +140,12 @@ class GeneticAlgorithm:
 
                 new_population.append(new_individ)
 
-            population = self.create_population(population, new_population)
+            if hasattr(self, 'stop_criteria'):
+                stop = self.stop_criteria(
+                    parents=population, children=new_population)
+                if stop:
+                    return [sorted(new_population, key=lambda x: x.fitness)[0], epoch + 1]
+
+            population = new_population
 
         return sorted(population, key=lambda x: x.fitness)[0]
