@@ -123,6 +123,12 @@ def has_close_fitnesses(parents: list[Individ], children: list[Individ], e: floa
 
 
 def has_close_solutions(children: list[Individ], parents, e: float,):
-    sorted_population = sorted(children, key=lambda x: x.fitness)
-    diff = calculate_similarity(sorted_population[0], sorted_population[1])
-    return diff < e
+    n = len(children)
+    max_distance = -1
+    for i in range(n):
+        for j in range(i+1, n):
+            distance = calculate_similarity(children[i], children[j])
+            if distance > max_distance:
+                min_distance = distance
+
+    return min_distance < e
