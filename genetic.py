@@ -76,6 +76,11 @@ class GeneticAlgorithm:
         self.size = size
         self.epochs = epochs
         self.n_bits = 16
+        self.min_fitnesses = []
+
+    def collect_min_fitness(self, fitness):
+        self.min_fitnesses.append(fitness)
+        pass
 
     def set_create_populationa(self, create_population):
         self.create_population = create_population
@@ -114,12 +119,15 @@ class GeneticAlgorithm:
 
         population = create_population(bounds, self.size)
 
-        for epoch in range(self.epochs):
-            for individ in population:
-                individ.fitness = func(
-                    individ.x_phenotype, individ.y_phenotype
-                )
+        for individ in population:
+            individ.fitness = func(
+                individ.x_phenotype, individ.y_phenotype
+            )
 
+        best = sorted(population, key=lambda x: x.fitness)[0]
+        self.collect_min_fitness(best.fitness)
+
+        for epoch in range(self.epochs):
             new_population = []
             for individ in population:
                 parent_a, parent_b = self.parent_selection(population)
@@ -144,8 +152,14 @@ class GeneticAlgorithm:
                 if self.stop_criteria(
                         parents=population, children=new_population
                 ):
-                    return [sorted(new_population, key=lambda x: x.fitness)[0], epoch + 1]
+                    best = sorted(new_population,
+                                  key=lambda x: individ.fitness)[0]
+                    self.collect_min_fitness(best.fitness)
+                    return [best, epoch + 1]
 
             population = new_population
+
+            best = sorted(population, key=lambda x: x.fitness)[0]
+            self.collect_min_fitness(best.fitness)
 
         return sorted(population, key=lambda x: x.fitness)[0]
