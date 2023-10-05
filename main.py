@@ -31,7 +31,7 @@ def test_mutation(func):
         x, y, f = result.x_phenotype, result.y_phenotype, result.fitness
         func_name = type(func).__name__
         print(
-            f'rate {rate}: ${func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
+            f'rate {rate}: {func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
         stop_timer()
 
 
@@ -51,7 +51,7 @@ def test_crossover(func):
         x, y, f = result.x_phenotype, result.y_phenotype, result.fitness
         func_name = type(func).__name__
         print(
-            f'method {crossover.__name__}: ${func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
+            f'method {crossover.__name__}: {func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
         stop_timer()
 
 
@@ -73,7 +73,7 @@ def test_parents(func):
         x, y, f = result.x_phenotype, result.y_phenotype, result.fitness
         func_name = type(func).__name__
         print(
-            f'method {method.__name__}: ${func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
+            f'method {method.__name__}: {func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
         stop_timer()
 
 
@@ -94,7 +94,7 @@ def test_population_creation(func):
         x, y, f = result.x_phenotype, result.y_phenotype, result.fitness
         func_name = type(func).__name__
         print(
-            f'method {method.__name__}: ${func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
+            f'method {method.__name__}: {func_name} {x=:.4f} {y=:.4f} {f=:.4f}')
         stop_timer()
 
 
@@ -121,7 +121,7 @@ def test_stop(func):
         func_name = type(func).__name__
         method_name = method.__name__ if method is not None else 'iterations'
         print(
-            f'method {method_name}: ${func_name} {x=:.4f} {y=:.4f} {f=:.4f} for {epochs} epochs')
+            f'method {method_name}: {func_name} {x=:.4f} {y=:.4f} {f=:.4f} for {epochs} epochs')
         stop_timer()
 
 
