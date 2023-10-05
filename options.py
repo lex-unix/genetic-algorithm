@@ -26,31 +26,34 @@ def selection(population: list[Individ]):
 
 
 def inbreeding(population: list[Individ]):
+    pos = randint(len(population))
+    parent_a = population[pos]
     min_similarity = float('inf')
-    selected_parents = None
-
+    selected_parents = []
     for i in range(len(population)):
-        for j in range(i+1, len(population)):
-            similarity = calculate_similarity(population[i], population[j])
-            if similarity < min_similarity:
-                min_similarity = similarity
-                selected_parents = [population[i], population[j]]
+        if i == pos:
+            continue
+        similarity = calculate_similarity(parent_a, population[i])
+        if similarity < min_similarity:
+            min_similarity = similarity
+            selected_parents = [parent_a, population[i]]
 
     return selected_parents
 
 
 def outbreeding(population: list[Individ]):
+    pos = randint(len(population))
+    parent_a = population[pos]
     max_dissimilarity = -1
     selected_parents = None
 
     for i in range(len(population)):
-        for j in range(i+1, len(population)):
-            dissimilarity = calculate_similarity(
-                population[i], population[j]
-            )
-            if dissimilarity > max_dissimilarity:
-                max_dissimilarity = dissimilarity
-                selected_parents = [population[i], population[j]]
+        if i == pos:
+            continue
+        dissimilarity = calculate_similarity(parent_a, population[i])
+        if dissimilarity > max_dissimilarity:
+            max_dissimilarity = dissimilarity
+            selected_parents = [population[i], population[i]]
 
     return selected_parents
 
@@ -90,7 +93,7 @@ def two_point_crossover(parent_a: Individ, parent_b: Individ) -> list[Individ]:
     return [child_a, child_b]
 
 
-def elitism(parents: list[Individ], children: list[Individ], num_elites: int = 10):
+def elitism(parents: list[Individ], children: list[Individ]):
     combined = parents + children
     combined_sorted = sorted(combined, key=lambda x: x.fitness)
     return combined_sorted[:len(parents)]
